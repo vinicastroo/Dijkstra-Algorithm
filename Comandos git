@@ -1,0 +1,16 @@
+Comandos gerais:
+ls: ver o que tem na pasta
+cd navegar pelas pastas
+
+Comandos Git:
+
+git clone: (link github) clonar repositorio
+
+git status: Verificar as alterações realizadas
+
+git -A : Add todas as alterações
+git add ... : add um arquivo em específico
+
+git commit -m "descrição do commit": Comitar as alterações
+
+git push -u origin master: jogar as alterações no repositório
