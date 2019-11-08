@@ -9,14 +9,20 @@
 <body>
     
     <style>
-        th{
-            border: 1px solid green;
-            padding: 3px 4px;
+        table{
+            border-collapse: collapse;    
+        }
+
+        th, td{
+            border: 1px solid #555;
+            padding: 5px 6px;
+            text-align: center;
         }  
     </style>
 
-    <table>
+    <table id="tabela">
         <thead>
+            <th>&nbsp;&nbsp;&nbsp;</th>
             <th>A</th>    
             <th>B</th>    
             <th>C</th>    
@@ -54,11 +60,38 @@
 
     <script>
         window.addEventListener('load', (event) => {
-            var aDados = [
+            let aDados = [
                 ['A', 'B', 'B', 'C', 'D', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'K', 'K', 'L', 'M', 'N', 'N', 'N', 'Q', 'R', 'S', 'T', 'U', 'V',  'V', 'W',  'W', 'X', 'Y', 'A1', 'A1', 'A2', 'A3', 'A4', 'A5'],
                 ['B', 'C', 'D', 'E', 'E', 'H', 'F', 'H', 'H', 'I', 'J', 'K', 'L', 'T', 'U', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'K', 'V', 'W', 'A1', 'X', 'A2', 'Y', 'Z', 'A2', 'A4', 'A3', 'A4', 'A5', 'A6']
             ];
-            console.log(aDados);
+
+        
+            
+            let oTabela = document.querySelector('#tabela');
+
+            let aThTabela = document.querySelectorAll('th');
+
+            for (iLinha = 1; iLinha < aThTabela.length; iLinha++) {
+
+                let oTr = document.createElement('tr');
+                
+                for (iColuna = 0; iColuna < aThTabela.length; iColuna++ ) {
+                    let oTd = document.createElement('td');
+                    
+                    let sTexto = document.createTextNode('');
+
+                    if(iColuna == 0 && iLinha > 0) {
+                        sTexto = document.createTextNode(aThTabela[iLinha].innerHTML);    
+                    }
+                    
+                    oTd.appendChild(sTexto);
+                    oTr.appendChild(oTd);
+                }
+
+                oTabela.appendChild(oTr);
+            }
+
+
         });
     </script>
 </body>
