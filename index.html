@@ -13,11 +13,20 @@
             border-collapse: collapse;    
         }
 
+        th {
+            background: lightcoral;
+        }
+
         th, td{
             border: 1px solid #555;
-            padding: 5px 6px;
+            height: 20px;
+            width: 25px;
             text-align: center;
         }  
+
+        tr:hover{
+            background: lightskyblue;
+        }
     </style>
 
     <table id="tabela">
@@ -60,39 +69,90 @@
 
     <script>
         window.addEventListener('load', (event) => {
-            let aDados = [
-                ['A', 'B', 'B', 'C', 'D', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'K', 'K', 'L', 'M', 'N', 'N', 'N', 'Q', 'R', 'S', 'T', 'U', 'V',  'V', 'W',  'W', 'X', 'Y', 'A1', 'A1', 'A2', 'A3', 'A4', 'A5'],
-                ['B', 'C', 'D', 'E', 'E', 'H', 'F', 'H', 'H', 'I', 'J', 'K', 'L', 'T', 'U', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'K', 'V', 'W', 'A1', 'X', 'A2', 'Y', 'Z', 'A2', 'A4', 'A3', 'A4', 'A5', 'A6']
-            ];
+            montaTabela();
 
-        
             
-            let oTabela = document.querySelector('#tabela');
+        });
+        
+        function montaTabela() {
+            let aDados = getDadosMapa()
 
+            let oTabela = document.querySelector('#tabela');
             let aThTabela = document.querySelectorAll('th');
 
             for (iLinha = 1; iLinha < aThTabela.length; iLinha++) {
-
+                
                 let oTr = document.createElement('tr');
                 
                 for (iColuna = 0; iColuna < aThTabela.length; iColuna++ ) {
                     let oTd = document.createElement('td');
-                    
                     let sTexto = document.createTextNode('');
-
+                    
                     if(iColuna == 0 && iLinha > 0) {
                         sTexto = document.createTextNode(aThTabela[iLinha].innerHTML);    
+                        oTd.setAttribute('style', 'background:lightcoral;font-weight:bold')
+                    }
+                    else {
+                        aDados[aThTabela[iLinha].innerHTML].forEach((oDado, i) => {
+                            if(oDado ==  aThTabela[iColuna].innerHTML){
+                                sTexto = document.createTextNode(aThTabela[iColuna].innerHTML);
+
+                                oTd.setAttribute('style', 'background:lightgreen;');
+                                if(aDados.legnth == 1){
+                                    return;
+                                }
+                            }
+                        });
+
                     }
                     
                     oTd.appendChild(sTexto);
                     oTr.appendChild(oTd);
                 }
-
+                
                 oTabela.appendChild(oTr);
             }
+        }
 
+        function getDadosMapa(){
+            var aDadosMapa = [];
+            
+            aDadosMapa['A'] = ['B'];
+            aDadosMapa['B'] = ['A','C','D'];
+            aDadosMapa['C'] = ['B','E'];
+            aDadosMapa['D'] = ['B','E','H'];
+            aDadosMapa['E'] = ['C','D','F'];
+            aDadosMapa['F'] = ['E', 'H'];
+            aDadosMapa['G'] = ['H'];
+            aDadosMapa['H'] = ['D', 'F', 'G', 'I'];
+            aDadosMapa['I'] = ['H', 'J'];
+            aDadosMapa['J'] = ['I', 'K'];
+            aDadosMapa['K'] = ['J', 'L', 'T', 'U'];
+            aDadosMapa['L'] = ['K', 'M'];
+            aDadosMapa['M'] = ['L', 'N'];
+            aDadosMapa['N'] = ['M', 'O', 'P', 'Q'];
+            aDadosMapa['O'] = ['N'];
+            aDadosMapa['P'] = ['N'];
+            aDadosMapa['Q'] = ['N', 'R'];
+            aDadosMapa['R'] = ['Q', 'S'];
+            aDadosMapa['S'] = ['T', 'R'];
+            aDadosMapa['T'] = ['K', 'S'];
+            aDadosMapa['U'] = ['K', 'V'];
+            aDadosMapa['V'] = ['U', 'W', 'A1'];
+            aDadosMapa['W'] = ['V', 'X', 'A2'];
+            aDadosMapa['X'] = ['W', 'Y'];
+            aDadosMapa['Y'] = ['X', 'Z'];
+            aDadosMapa['Z'] = ['Y'];
+            aDadosMapa['A1'] = ['V', 'A2', 'A4'];
+            aDadosMapa['A2'] = ['W', 'A1', 'A3'];
+            aDadosMapa['A3'] = ['A2', 'A4'];
+            aDadosMapa['A4'] = ['A1', 'A3', 'A5'];
+            aDadosMapa['A5'] = ['A4', 'A6'];
+            aDadosMapa['A6'] = ['A5'];
 
-        });
-    </script>
+            return aDadosMapa;
+        }
+
+        </script>
 </body>
 </html>
