@@ -67,21 +67,24 @@
         </thead>
     </table>
 
+
+    <br>
+    <label for="caminho">Digite o ponto de partida e o fim:</label>
+    <br>
+    <input id="caminho" type="text" placeholder="Exemplo A-N">
+    <button>Calcular</button>
+
     <script>
         window.addEventListener('load', (event) => {
             montaTabela();
-
-            
         });
         
         function montaTabela() {
-            let aDados = getDadosMapa()
-
+            let aDados  = getDadosMapa()
             let oTabela = document.querySelector('#tabela');
             let aThTabela = document.querySelectorAll('th');
 
             for (iLinha = 1; iLinha < aThTabela.length; iLinha++) {
-                
                 let oTr = document.createElement('tr');
                 
                 for (iColuna = 0; iColuna < aThTabela.length; iColuna++ ) {
@@ -105,11 +108,9 @@
                         });
 
                     }
-                    
                     oTd.appendChild(sTexto);
                     oTr.appendChild(oTd);
                 }
-                
                 oTabela.appendChild(oTr);
             }
         }
