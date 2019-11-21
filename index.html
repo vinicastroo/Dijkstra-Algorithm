@@ -1,159 +1,253 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-</head>
-<body>
-    
+  </head>
+  <body>
     <style>
-        table{
-            border-collapse: collapse;    
-        }
+      #caminhos {
+        margin-bottom: 10px;
+      }
 
-        th {
-            background: lightcoral;
-        }
+      #posicao-inicio,
+      #posicao-final {
+        border: 1px solid #eee;
+        padding: 5px;
+      }
 
-        th, td{
-            border: 1px solid #555;
-            height: 20px;
-            width: 25px;
-            text-align: center;
-        }  
+      #screen {
+        border: 1px solid #eee;
+        height: auto;
+        width: 60%;
+        margin-left: 5px;
+      }
 
-        tr:hover{
-            background: lightskyblue;
-        }
+      .flex {
+        display: flex;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      th {
+        background: lightcoral;
+      }
+
+      th,
+      td {
+        border: 1px solid #555;
+        height: 20px;
+        width: 25px;
+        text-align: center;
+      }
+
+      tr:hover {
+        background: lightskyblue;
+      }
     </style>
 
-    <table id="tabela">
+    <div id="caminhos">
+      <span>Posição Inicio:</span>
+      <span id="posicao-inicio"></span>
+      <span> - Posição Fim:</span>
+      <span id="posicao-final"></span>
+    </div>
+
+    <div class="flex">
+      <table id="tabela">
         <thead>
-            <th>&nbsp;&nbsp;&nbsp;</th>
-            <th>A</th>    
-            <th>B</th>    
-            <th>C</th>    
-            <th>D</th>    
-            <th>E</th>    
-            <th>F</th>    
-            <th>G</th>    
-            <th>H</th>    
-            <th>I</th>    
-            <th>J</th>    
-            <th>K</th>    
-            <th>L</th>    
-            <th>M</th>    
-            <th>N</th>    
-            <th>O</th>    
-            <th>P</th>    
-            <th>Q</th>    
-            <th>R</th>    
-            <th>S</th>    
-            <th>T</th>    
-            <th>U</th>    
-            <th>V</th>    
-            <th>W</th>    
-            <th>X</th>    
-            <th>Y</th>    
-            <th>Z</th>    
-            <th>A1</th>    
-            <th>A2</th>    
-            <th>A3</th>    
-            <th>A4</th>    
-            <th>A5</th>    
-            <th>A6</th>    
+          <th>&nbsp;&nbsp;&nbsp;</th>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+          <th>D</th>
+          <th>E</th>
+          <th>F</th>
+          <th>G</th>
+          <th>H</th>
+          <th>I</th>
+          <th>J</th>
+          <th>K</th>
+          <th>L</th>
+          <th>M</th>
+          <th>N</th>
+          <th>O</th>
+          <th>P</th>
+          <th>Q</th>
+          <th>R</th>
+          <th>S</th>
+          <th>T</th>
+          <th>U</th>
+          <th>V</th>
+          <th>W</th>
+          <th>X</th>
+          <th>Y</th>
+          <th>Z</th>
+          <th>A1</th>
+          <th>A2</th>
+          <th>A3</th>
+          <th>A4</th>
+          <th>A5</th>
+          <th>A6</th>
         </thead>
-    </table>
+      </table>
 
-
-    <br>
+      <canvas id="screen"></canvas>
+    </div>
+    <br />
     <label for="caminho">Digite o ponto de partida e o fim:</label>
-    <br>
-    <input id="caminho" type="text" placeholder="Exemplo A-N">
+    <br />
+    <input id="caminho" type="text" placeholder="Exemplo A-N" />
     <button>Calcular</button>
 
     <script>
-        window.addEventListener('load', (event) => {
-            montaTabela();
-        });
-        
-        function montaTabela() {
-            let aDados  = getDadosMapa()
-            let oTabela = document.querySelector('#tabela');
-            let aThTabela = document.querySelectorAll('th');
+      window.addEventListener("load", event => {
+        montaTabela();
+        sorteiaCaminho();
+      });
 
-            for (iLinha = 1; iLinha < aThTabela.length; iLinha++) {
-                let oTr = document.createElement('tr');
-                
-                for (iColuna = 0; iColuna < aThTabela.length; iColuna++ ) {
-                    let oTd = document.createElement('td');
-                    let sTexto = document.createTextNode('');
-                    
-                    if(iColuna == 0 && iLinha > 0) {
-                        sTexto = document.createTextNode(aThTabela[iLinha].innerHTML);    
-                        oTd.setAttribute('style', 'background:lightcoral;font-weight:bold')
-                    }
-                    else {
-                        aDados[aThTabela[iLinha].innerHTML].forEach((oDado, i) => {
-                            if(oDado ==  aThTabela[iColuna].innerHTML){
-                                sTexto = document.createTextNode(aThTabela[iColuna].innerHTML);
+      function montaTabela() {
+        let aDados = getDadosMapa();
+        let oTabela = document.querySelector("#tabela");
+        let aThTabela = document.querySelectorAll("th");
 
-                                oTd.setAttribute('style', 'background:lightgreen;');
-                                if(aDados.legnth == 1){
-                                    return;
-                                }
-                            }
-                        });
+        for (iLinha = 1; iLinha < aThTabela.length; iLinha++) {
+          let oTr = document.createElement("tr");
 
-                    }
-                    oTd.appendChild(sTexto);
-                    oTr.appendChild(oTd);
+          for (iColuna = 0; iColuna < aThTabela.length; iColuna++) {
+            let oTd = document.createElement("td");
+            let sTexto = document.createTextNode("");
+
+            if (iColuna == 0 && iLinha > 0) {
+              sTexto = document.createTextNode(aThTabela[iLinha].innerHTML);
+              oTd.setAttribute(
+                "style",
+                "background:lightcoral;font-weight:bold"
+              );
+            } else {
+              aDados[aThTabela[iLinha].innerHTML].forEach((oDado, i) => {
+                if (oDado == aThTabela[iColuna].innerHTML) {
+                  sTexto = document.createTextNode(
+                    aThTabela[iColuna].innerHTML
+                  );
+
+                  oTd.setAttribute("style", "background:lightgreen;");
+                  if (aDados.legnth == 1) {
+                    return;
+                  }
                 }
-                oTabela.appendChild(oTr);
+              });
             }
+
+            oTd.appendChild(sTexto);
+            oTr.appendChild(oTd);
+          }
+
+          oTabela.appendChild(oTr);
         }
+      }
 
-        function getDadosMapa(){
-            var aDadosMapa = [];
-            
-            aDadosMapa['A'] = ['B'];
-            aDadosMapa['B'] = ['A','C','D'];
-            aDadosMapa['C'] = ['B','E'];
-            aDadosMapa['D'] = ['B','E','H'];
-            aDadosMapa['E'] = ['C','D','F'];
-            aDadosMapa['F'] = ['E', 'H'];
-            aDadosMapa['G'] = ['H'];
-            aDadosMapa['H'] = ['D', 'F', 'G', 'I'];
-            aDadosMapa['I'] = ['H', 'J'];
-            aDadosMapa['J'] = ['I', 'K'];
-            aDadosMapa['K'] = ['J', 'L', 'T', 'U'];
-            aDadosMapa['L'] = ['K', 'M'];
-            aDadosMapa['M'] = ['L', 'N'];
-            aDadosMapa['N'] = ['M', 'O', 'P', 'Q'];
-            aDadosMapa['O'] = ['N'];
-            aDadosMapa['P'] = ['N'];
-            aDadosMapa['Q'] = ['N', 'R'];
-            aDadosMapa['R'] = ['Q', 'S'];
-            aDadosMapa['S'] = ['T', 'R'];
-            aDadosMapa['T'] = ['K', 'S'];
-            aDadosMapa['U'] = ['K', 'V'];
-            aDadosMapa['V'] = ['U', 'W', 'A1'];
-            aDadosMapa['W'] = ['V', 'X', 'A2'];
-            aDadosMapa['X'] = ['W', 'Y'];
-            aDadosMapa['Y'] = ['X', 'Z'];
-            aDadosMapa['Z'] = ['Y'];
-            aDadosMapa['A1'] = ['V', 'A2', 'A4'];
-            aDadosMapa['A2'] = ['W', 'A1', 'A3'];
-            aDadosMapa['A3'] = ['A2', 'A4'];
-            aDadosMapa['A4'] = ['A1', 'A3', 'A5'];
-            aDadosMapa['A5'] = ['A4', 'A6'];
-            aDadosMapa['A6'] = ['A5'];
+      function getDadosMapa() {
+        var aDadosMapa = [];
 
-            return aDadosMapa;
+        aDadosMapa["A"] = ["B"];
+        aDadosMapa["B"] = ["A", "C", "D"];
+        aDadosMapa["C"] = ["B", "E"];
+        aDadosMapa["D"] = ["B", "E", "H"];
+        aDadosMapa["E"] = ["C", "D", "F"];
+        aDadosMapa["F"] = ["E", "H"];
+        aDadosMapa["G"] = ["H"];
+        aDadosMapa["H"] = ["D", "F", "G", "I"];
+        aDadosMapa["I"] = ["H", "J"];
+        aDadosMapa["J"] = ["I", "K"];
+        aDadosMapa["K"] = ["J", "L", "T", "U"];
+        aDadosMapa["L"] = ["K", "M"];
+        aDadosMapa["M"] = ["L", "N"];
+        aDadosMapa["N"] = ["M", "O", "P", "Q"];
+        aDadosMapa["O"] = ["N"];
+        aDadosMapa["P"] = ["N"];
+        aDadosMapa["Q"] = ["N", "R"];
+        aDadosMapa["R"] = ["Q", "S"];
+        aDadosMapa["S"] = ["T", "R"];
+        aDadosMapa["T"] = ["K", "S"];
+        aDadosMapa["U"] = ["K", "V"];
+        aDadosMapa["V"] = ["U", "W", "A1"];
+        aDadosMapa["W"] = ["V", "X", "A2"];
+        aDadosMapa["X"] = ["W", "Y"];
+        aDadosMapa["Y"] = ["X", "Z"];
+        aDadosMapa["Z"] = ["Y"];
+        aDadosMapa["A1"] = ["V", "A2", "A4"];
+        aDadosMapa["A2"] = ["W", "A1", "A3"];
+        aDadosMapa["A3"] = ["A2", "A4"];
+        aDadosMapa["A4"] = ["A1", "A3", "A5"];
+        aDadosMapa["A5"] = ["A4", "A6"];
+        aDadosMapa["A6"] = ["A5"];
+
+        return aDadosMapa;
+      }
+
+      function sorteiaCaminho() {
+        let aPosicoes = [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z",
+          "A1",
+          "A2",
+          "A3",
+          "A4",
+          "A5",
+          "A6"
+        ];
+
+        let sPosicaoInicial = sorteia(aPosicoes);
+        let sPosicaoFinal = sorteia(aPosicoes);
+
+        if (sPosicaoInicial == sPosicaoFinal) {
+          sorteiaCaminho();
+        } else {
+          document.querySelector("#posicao-inicio").innerText = sPosicaoInicial;
+          document.querySelector("#posicao-final").innerText = sPosicaoFinal;
         }
+      }
 
-        </script>
-</body>
+      function sorteia(aPosicoes) {
+        min = Math.ceil(0);
+        max = Math.floor(aPosicoes.length);
+
+        return aPosicoes[Math.floor(Math.random() * (max - min)) + min];
+      }
+
+      function criaMelhorCaminho() {
+        const screen = document.querySelector("#screen");
+        const context = screen.getContext("2d");
+      }
+    </script>
+  </body>
 </html>
