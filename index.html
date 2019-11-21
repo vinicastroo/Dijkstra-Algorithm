@@ -126,10 +126,9 @@
               );
             } else {
               aDados[aThTabela[iLinha].innerHTML].forEach((oDado, i) => {
-                if (oDado == aThTabela[iColuna].innerHTML) {
-                  sTexto = document.createTextNode(
-                    aThTabela[iColuna].innerHTML
-                  );
+                console.log(oDado);
+                if (oDado.posicao == aThTabela[iColuna].innerHTML) {
+                  sTexto = document.createTextNode(oDado.custo);
 
                   oTd.setAttribute("style", "background:lightgreen;");
                   if (aDados.legnth == 1) {
@@ -150,38 +149,129 @@
       function getDadosMapa() {
         var aDadosMapa = [];
 
-        aDadosMapa["A"]  = [{posicao:"B", custo:5}];
-        aDadosMapa["B"]  = [{posicao:"A", custo:5},{posicao:"C", custo:3},{posicao:"D", custo:4}];
-        aDadosMapa["C"]  = [{posicao:"B", custo:3},{posicao:"E", custo:3}];
-        aDadosMapa["D"]  = [{posicao:"B", custo:4},{posicao:"E", custo:10},{posicao:"H", custo:8}];
-        aDadosMapa["E"]  = [{posicao:"D", custo:10},{posicao:"C", custo:3},{posicao:"F", custo:7}];
-        aDadosMapa["F"]  = [{posicao:"E", custo:7},{posicao:"H", custo:3}];
-        aDadosMapa["G"]  = [{posicao:"H", custo:2}];
-        aDadosMapa["H"]  = [{posicao:"G", custo:2},{posicao:"D", custo:8},{posicao:"I", custo:1}];
-        aDadosMapa["I"]  = [{posicao:"J", custo:2}, {posicao:"H", custo:1}];
-        aDadosMapa["J"]  = [{posicao:"I", custo:2},{posicao:"K", custo:12}];
-        aDadosMapa["K"]  = [{posicao:"J", custo:12},{posicao:"L", custo:3},{posicao:"T", custo:4}, {posicao:"U", custo:7}];
-        aDadosMapa["L"]  = [{posicao:"K", custo:3},{posicao:"M", custo:6}];
-        aDadosMapa["M"]  = [{posicao:"L", custo:6},{posicao:"N", custo:1}];
-        aDadosMapa["N"]  = [{posicao:"M", custo:1},{posicao:"O", custo:3},{posicao:"P", custo:5}, {posicao:"Q", custo:4}];
-        aDadosMapa["O"]  = [{posicao:"N", custo:3}];
-        aDadosMapa["P"]  = [{posicao:"N", custo:5}];
-        aDadosMapa["Q"]  = [{posicao:"N", custo:4},{posicao:"R", custo:8}];
-        aDadosMapa["R"]  = [{posicao:"Q", custo:8},{posicao:"S", custo:7}];
-        aDadosMapa["S"]  = [{posicao:"R", custo:7},{posicao:"T", custo:11}];
-        aDadosMapa["T"]  = [{posicao:"S", custo:11},{posicao:"K", custo:4}];
-        aDadosMapa["U"]  = [{posicao:"K", custo:7},{posicao:"V", custo:9}];
-        aDadosMapa["V"]  = [{posicao:"U", custo:9},{posicao:"W", custo:10},{posicao:"A1", custo:3}];
-        aDadosMapa["W"]  = [{posicao:"V", custo:10},{posicao:"A2", custo:3},{posicao:"X", custo:5}];
-        aDadosMapa["X"]  = [{posicao:"W", custo:5},{posicao:"Y", custo:3}];
-        aDadosMapa["Y"]  = [{posicao:"X", custo:3},{posicao:"Z", custo:1}];
-        aDadosMapa["Z"]  = [{posicao:"Y", custo:1}];
-        aDadosMapa["A1"] = [{posicao:"V", custo:3},{posicao:"A2", custo:10},{posicao:"A4", custo:7}];
-        aDadosMapa["A2"] = [{posicao:"W", custo:3},{posicao:"A1", custo:10},{posicao:"A3", custo:2}];
-        aDadosMapa["A3"] = [{posicao:"A2", custo:2},{posicao:"A4", custo:9}];
-        aDadosMapa["A4"] = [{posicao:"A3", custo:9},{posicao:"A1", custo:7},{posicao:"A5", custo:10}];
-        aDadosMapa["A5"] = [{posicao:"A4", custo:10},{posicao:"A6", custo:2}];
-        aDadosMapa["A6"] = [{posicao:"A5", custo:2}];
+        aDadosMapa["A"] = [{ posicao: "B", custo: 5 }];
+        aDadosMapa["B"] = [
+          { posicao: "A", custo: 5 },
+          { posicao: "C", custo: 6 },
+          { posicao: "D", custo: 4 }
+        ];
+        aDadosMapa["C"] = [
+          { posicao: "B", custo: 6 },
+          { posicao: "E", custo: 3 }
+        ];
+        aDadosMapa["D"] = [
+          { posicao: "B", custo: 4 },
+          { posicao: "E", custo: 10 },
+          { posicao: "H", custo: 8 }
+        ];
+        aDadosMapa["E"] = [
+          { posicao: "D", custo: 10 },
+          { posicao: "C", custo: 3 },
+          { posicao: "F", custo: 7 }
+        ];
+        aDadosMapa["F"] = [
+          { posicao: "E", custo: 7 },
+          { posicao: "H", custo: 3 }
+        ];
+        aDadosMapa["G"] = [{ posicao: "H", custo: 2 }];
+        aDadosMapa["H"] = [
+          { posicao: "G", custo: 2 },
+          { posicao: "D", custo: 8 },
+          { posicao: "I", custo: 1 }
+        ];
+        aDadosMapa["I"] = [
+          { posicao: "J", custo: 2 },
+          { posicao: "H", custo: 1 }
+        ];
+        aDadosMapa["J"] = [
+          { posicao: "I", custo: 2 },
+          { posicao: "K", custo: 12 }
+        ];
+        aDadosMapa["K"] = [
+          { posicao: "J", custo: 12 },
+          { posicao: "L", custo: 3 },
+          { posicao: "T", custo: 4 },
+          { posicao: "U", custo: 7 }
+        ];
+        aDadosMapa["L"] = [
+          { posicao: "K", custo: 3 },
+          { posicao: "M", custo: 6 }
+        ];
+        aDadosMapa["M"] = [
+          { posicao: "L", custo: 6 },
+          { posicao: "N", custo: 1 }
+        ];
+        aDadosMapa["N"] = [
+          { posicao: "M", custo: 1 },
+          { posicao: "O", custo: 3 },
+          { posicao: "P", custo: 5 },
+          { posicao: "Q", custo: 4 }
+        ];
+        aDadosMapa["O"] = [{ posicao: "N", custo: 3 }];
+        aDadosMapa["P"] = [{ posicao: "N", custo: 5 }];
+        aDadosMapa["Q"] = [
+          { posicao: "N", custo: 4 },
+          { posicao: "R", custo: 8 }
+        ];
+        aDadosMapa["R"] = [
+          { posicao: "Q", custo: 8 },
+          { posicao: "S", custo: 7 }
+        ];
+        aDadosMapa["S"] = [
+          { posicao: "R", custo: 7 },
+          { posicao: "T", custo: 11 }
+        ];
+        aDadosMapa["T"] = [
+          { posicao: "S", custo: 11 },
+          { posicao: "K", custo: 4 }
+        ];
+        aDadosMapa["U"] = [
+          { posicao: "K", custo: 7 },
+          { posicao: "V", custo: 9 }
+        ];
+        aDadosMapa["V"] = [
+          { posicao: "U", custo: 9 },
+          { posicao: "W", custo: 10 },
+          { posicao: "A1", custo: 3 }
+        ];
+        aDadosMapa["W"] = [
+          { posicao: "V", custo: 10 },
+          { posicao: "A2", custo: 3 },
+          { posicao: "X", custo: 5 }
+        ];
+        aDadosMapa["X"] = [
+          { posicao: "W", custo: 5 },
+          { posicao: "Y", custo: 3 }
+        ];
+        aDadosMapa["Y"] = [
+          { posicao: "X", custo: 3 },
+          { posicao: "Z", custo: 1 }
+        ];
+        aDadosMapa["Z"] = [{ posicao: "Y", custo: 1 }];
+        aDadosMapa["A1"] = [
+          { posicao: "V", custo: 3 },
+          { posicao: "A2", custo: 10 },
+          { posicao: "A4", custo: 7 }
+        ];
+        aDadosMapa["A2"] = [
+          { posicao: "W", custo: 3 },
+          { posicao: "A1", custo: 10 },
+          { posicao: "A3", custo: 2 }
+        ];
+        aDadosMapa["A3"] = [
+          { posicao: "A2", custo: 2 },
+          { posicao: "A4", custo: 9 }
+        ];
+        aDadosMapa["A4"] = [
+          { posicao: "A3", custo: 9 },
+          { posicao: "A1", custo: 7 },
+          { posicao: "A5", custo: 10 }
+        ];
+        aDadosMapa["A5"] = [
+          { posicao: "A4", custo: 10 },
+          { posicao: "A6", custo: 2 }
+        ];
+        aDadosMapa["A6"] = [{ posicao: "A5", custo: 2 }];
 
         /**
         aDadosMapa["A"] = ["B"];
@@ -217,7 +307,7 @@
         aDadosMapa["A5"] = ["A4", "A6"];
         aDadosMapa["A6"] = ["A5"];
         */
-       
+
         return aDadosMapa;
       }
 
