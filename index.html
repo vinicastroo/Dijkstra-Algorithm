@@ -46,7 +46,7 @@
       }
 
       tr:hover {
-        background: lightskyblue;
+        background: #eee;
       }
     </style>
 
@@ -98,16 +98,12 @@
 
       <canvas id="screen"></canvas>
     </div>
-    <br />
-    <label for="caminho">Digite o ponto de partida e o fim:</label>
-    <br />
-    <input id="caminho" type="text" placeholder="Exemplo A-N" />
-    <button>Calcular</button>
 
     <script>
       window.addEventListener("load", event => {
         montaTabela();
         sorteiaCaminho();
+        procuraMelhorCaminho();
       });
 
       function montaTabela() {
@@ -154,6 +150,9 @@
       function getDadosMapa() {
         var aDadosMapa = [];
 
+        // aDadosMapa["A"] = [{posicao:"B", custo:5}]; EXEMPLO A
+        // aDadosMapa["B"] = [{posicao:"A", custo:5},{posicao:"C", custo:3},{posicao:"D", custo:5}]; EXEMPLO B
+
         aDadosMapa["A"] = ["B"];
         aDadosMapa["B"] = ["A", "C", "D"];
         aDadosMapa["C"] = ["B", "E"];
@@ -190,8 +189,8 @@
         return aDadosMapa;
       }
 
-      function sorteiaCaminho() {
-        let aPosicoes = [
+      function getPosicoes() {
+        return [
           "A",
           "B",
           "C",
@@ -225,6 +224,10 @@
           "A5",
           "A6"
         ];
+      }
+
+      function sorteiaCaminho() {
+        let aPosicoes = getPosicoes();
 
         let sPosicaoInicial = sorteia(aPosicoes);
         let sPosicaoFinal = sorteia(aPosicoes);
@@ -244,9 +247,12 @@
         return aPosicoes[Math.floor(Math.random() * (max - min)) + min];
       }
 
-      function criaMelhorCaminho() {
-        const screen = document.querySelector("#screen");
-        const context = screen.getContext("2d");
+      function procuraMelhorCaminho() {
+        let sInicio = document.querySelector("#posicao-inicio").innerText;
+        let sFinal = document.querySelector("#posicao-final").innerText;
+
+        let aDados = getDadosMapa();
+        let aCaminhosPassou = [];
       }
     </script>
   </body>
