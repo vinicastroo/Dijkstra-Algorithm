@@ -435,25 +435,34 @@
         let sFinal = document.querySelector("#posicao-final").innerText;
 
         let aNaoVisitados = getDadosMapa();
-        let aJaVisitados = [];
+        let aJaVisitados = [sInicio];
 
         let aCustoAtual = criaArrayCusto(aNaoVisitados, sInicio);
 
-        // while (aNaoVisitados.length > 0) {
-        let aCaminhosPassou = [];
-        let near = getElementoMenorCusto(aCustoAtual, aNaoVisitados);
-        aVizinhos = getFromIndice(aNaoVisitados, near.posicaoAtual).vizinhos;
-        aNaoVisitados = removeDoArray(aNaoVisitados, near.posicaoAtual);
+        while (aNaoVisitados.length > 0) {
+          let aCaminhosPassou = [];
+          let near = getElementoMenorCusto(aCustoAtual, aNaoVisitados);
+          aVizinhos = getFromIndice(aNaoVisitados, near.posicaoAtual).vizinhos;
+          aNaoVisitados = removeDoArray(aNaoVisitados, near.posicaoAtual);
 
-        aVizinhos.forEach(oVizinho => {
-          let custoTotal = near.custo + oVizinho.custo;
-          let oCustoAtualVizinho = getFromIndice(aCustoAtual, oVizinho.posicao);
-          if (custoTotal < oCustoAtualVizinho.custo) {
-            oCustoAtualVizinho.custo = custoTotal;
-            aJaVisitados.push(near.posicaoAtual);
+          aVizinhos.forEach(oVizinho => {
+            let custoTotal = near.custo + oVizinho.custo;
+            let oCustoAtualVizinho = getFromIndice(
+              aCustoAtual,
+              oVizinho.posicao
+            );
+            if (custoTotal < oCustoAtualVizinho.custo) {
+              oCustoAtualVizinho.custo = custoTotal;
+              aJaVisitados[near.posicaoAtual] = oVizinho.posicao;
+            }
+          });
+
+          if (near.posicaoAtual == sFinal) {
+            console.log(aCustoAtual);
+            console.log(aJaVisitados);
+            return;
           }
-        });
-        console.log(aJaVisitados);
+        }
       }
 
       function removeDoArray(aDados, sPosicao) {
@@ -482,8 +491,22 @@
       }
 
       function getElementoMenorCusto(aCustos, aNaoVisitados) {
-        let iMenorCusto = 0;
+        let iMenorCusto = Infinity;
         let sIndiceElementoMenorCusto = "";
+
+        aCustos = aCustos.filter(oCusto => {
+          if (oCusto.custo != Infinity) {
+            return oCusto;
+          }
+        });
+
+        aNaoVisitados = aNaoVisitados.filter(oElement => {
+          for (i = 0; i < aCustos.length; i++) {
+            if (oElement.posicaoAtual == aCustos[i].posicaoAtual) {
+              return oElement;
+            }
+          }
+        });
 
         aCustos.forEach(oCusto => {
           for (i = 0; i < aNaoVisitados.length; i++) {
