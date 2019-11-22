@@ -199,6 +199,7 @@
             vizinhos: [
               { posicao: "G", custo: 2 },
               { posicao: "D", custo: 8 },
+              { posicao: "F", custo: 3 },
               { posicao: "I", custo: 1 }
             ]
           },
@@ -440,7 +441,6 @@
         let aCustoAtual = criaArrayCusto(aNaoVisitados, sInicio);
 
         while (aNaoVisitados.length > 0) {
-          let aCaminhosPassou = [];
           let near = getElementoMenorCusto(aCustoAtual, aNaoVisitados);
           aVizinhos = getFromIndice(aNaoVisitados, near.posicaoAtual).vizinhos;
           aNaoVisitados = removeDoArray(aNaoVisitados, near.posicaoAtual);
@@ -451,15 +451,15 @@
               aCustoAtual,
               oVizinho.posicao
             );
+
             if (custoTotal < oCustoAtualVizinho.custo) {
               oCustoAtualVizinho.custo = custoTotal;
-              aJaVisitados[near.posicaoAtual] = oVizinho.posicao;
+              aJaVisitados[oVizinho.posicao] = near.posicaoAtual;
             }
           });
 
           if (near.posicaoAtual == sFinal) {
-            console.log(aCustoAtual);
-            console.log(aJaVisitados);
+            console.log(criaMelhorCaminho(aJaVisitados, sFinal, sInicio));
             return;
           }
         }
@@ -534,6 +534,14 @@
         });
 
         return aCustos;
+      }
+
+      function criaMelhorCaminho(aJaVisitados, sAtual, sDestino) {
+        if (sAtual == sDestino) {
+          return;
+        }
+        console.log(sAtual);
+        criaMelhorCaminho(aJaVisitados, aJaVisitados[sAtual], sDestino);
       }
     </script>
   </body>
