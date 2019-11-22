@@ -435,17 +435,25 @@
         let sFinal = document.querySelector("#posicao-final").innerText;
 
         let aNaoVisitados = getDadosMapa();
-        let aJaVisitados = [sInicio];
+        let aJaVisitados = [];
 
-        let aCustoAtual = [{ posicaoAtual: sInicio, custo: 0 }];
+        let aCustoAtual = criaArrayCusto(aNaoVisitados, sInicio);
 
-        // aNaoVisitados = removeDoArray(aNaoVisitados, sInicio);
         // while (aNaoVisitados.length > 0) {
         let aCaminhosPassou = [];
-
         let near = getElementoMenorCusto(aCustoAtual, aNaoVisitados);
-        console.log(near);
-        // }
+        aVizinhos = getFromIndice(aNaoVisitados, near.posicaoAtual).vizinhos;
+        aNaoVisitados = removeDoArray(aNaoVisitados, near.posicaoAtual);
+
+        aVizinhos.forEach(oVizinho => {
+          let custoTotal = near.custo + oVizinho.custo;
+          let oCustoAtualVizinho = getFromIndice(aCustoAtual, oVizinho.posicao);
+          if (custoTotal < oCustoAtualVizinho.custo) {
+            oCustoAtualVizinho.custo = custoTotal;
+            aJaVisitados.push(near.posicaoAtual);
+          }
+        });
+        console.log(aJaVisitados);
       }
 
       function removeDoArray(aDados, sPosicao) {
@@ -463,12 +471,14 @@
       }
 
       function getFromIndice(aDados, sPosicao) {
-        debugger;
-        for (i = 0; i <= aDados.length; i++) {
-          if (aDados[i].posicaoAtual == sPosicao) {
-            return aDados[i];
+        let oRetorno;
+        aDados.forEach(oElement => {
+          if (oElement.posicaoAtual == sPosicao) {
+            oRetorno = oElement;
           }
-        }
+        });
+
+        return oRetorno;
       }
 
       function getElementoMenorCusto(aCustos, aNaoVisitados) {
@@ -485,8 +495,22 @@
             }
           }
         });
-
         return getFromIndice(aCustos, sIndiceElementoMenorCusto);
+      }
+
+      function criaArrayCusto(aDados, sPosicao) {
+        var aCustos = [];
+        let i = 0;
+        aDados.forEach(oDado => {
+          if (oDado.posicaoAtual == sPosicao) {
+            aCustos[i] = { posicaoAtual: oDado.posicaoAtual, custo: 0 };
+          } else {
+            aCustos[i] = { posicaoAtual: oDado.posicaoAtual, custo: Infinity };
+          }
+          i++;
+        });
+
+        return aCustos;
       }
     </script>
   </body>
